@@ -1,0 +1,4 @@
+@mixin cmnBox {
+  box-shadow: 0px 1px 50px rgba($color: $black, $alpha: 0.05);
+  border-radius: 20px;
+}

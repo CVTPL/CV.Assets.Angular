@@ -1,0 +1,275 @@
+// Global Variable & Mixin Files
+@import "global_variable.scss";
+@import "mixin.scss";
+
+// Bootstrap Grid Element @import File
+@import "grid/grid.scss";
+
+// Font-Family @import File
+@import "font/index.scss";
+.content-main {
+  padding: 30px;
+}
+.side-nav-main {
+  .mat-drawer-container {
+    height: calc(100vh - 100px);
+    background-color: $secondary-2;
+    .mat-drawer {
+      &.sidenav {
+        background-color: $secondary-1;
+        background-image: url(../images/png/side-nav-image.png);
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        color: $white;
+        min-width: 300px;
+        &::after {
+          content: "";
+          height: 100%;
+          width: 100%;
+          background-color: $secondary-1;
+          opacity: 0.7;
+          position: absolute;
+          top: 0;
+          left: 0;
+          z-index: -1;
+        }
+      }
+    }
+  }
+}
+
+.mat-flat-button {
+  height: 50px;
+  min-width: 150px;
+  font-size: $fs-16;
+  color: $white;
+  letter-spacing: 0.5px;
+  position: relative;
+  right: 0;
+  overflow: hidden;
+  z-index: 2;
+
+  &::after {
+    content: "";
+    min-width: 150px;
+    min-height: 150px;
+    display: inline-block;
+    border-radius: 50%;
+    background-color: $white;
+    position: absolute;
+    left: 0;
+    top: 50px;
+    transition: all 0.3s ease-out;
+    z-index: -6;
+  }
+  &:hover {
+    &::after {
+      top: -30px;
+      transition: all 0.3s ease-out;
+    }
+  }
+  &.mat-primary {
+    background-color: $primary-1;
+    &::after {
+      border: 5px solid rgba($primary-1, 0.5);
+    }
+    &:hover {
+      color: $primary-1;
+    }
+  }
+  &.mat-secondary {
+    background-color: $primary-4;
+    &::after {
+      border: 5px solid rgba($primary-4, 0.5);
+    }
+    &:hover {
+      color: $primary-4;
+    }
+  }
+}
+.form-field {
+  .mat-form-field {
+    width: 150px;
+    color: $secondary-1;
+    .mat-form-field-wrapper {
+      margin: 0;
+      padding: 0;
+    }
+    &.mat-focused {
+      .mat-form-field-outline {
+        color: $primary-1;
+      }
+      .mat-form-field-label {
+        color: $primary-1;
+      }
+      .mat-select-arrow {
+        color: $primary-1;
+      }
+    }
+
+    &.not-float {
+      width: 200px;
+      .mat-form-field-wrapper {
+        .mat-form-field-flex {
+          .mat-form-field-infix {
+            padding: 20px 0 20px 0;
+            border-top: none;
+          }
+        }
+      }
+    }
+  }
+  &.textarea {
+    textarea {
+      min-height: 90px;
+      resize: none;
+    }
+  }
+}
+.mat-datepicker-content {
+  .mat-calendar {
+    .mat-calendar-body-selected {
+      background-color: $primary-1;
+    }
+    .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover
+      > .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+      background-color: rgba($primary-1, 0.3);
+    }
+    .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+      background-color: rgba($primary-1, 0.3);
+    }
+  }
+}
+.mat-button-toggle-group {
+  border-radius: 6px;
+  border: none;
+  .mat-button-toggle {
+    background-color: $light-grey;
+    border: none;
+    &.mat-button-toggle-checked {
+      background-color: $primary-1;
+      color: $white;
+    }
+  }
+}
+.more-btn-main {
+  margin-left: auto;
+  margin-bottom: auto;
+  .mat-icon-button {
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    background-color: $light-blue;
+    border-radius: 6px;
+  }
+}
+.more-menu {
+  .mat-menu-item {
+    font-family: $font-regular;
+    font-size: $fs-14;
+    color: $grey;
+    letter-spacing: 0.7px;
+    .mat-icon {
+      color: $grey;
+    }
+  }
+}
+.assets-grid {
+  table.mat-table {
+    width: 100%;
+    box-shadow: none;
+    thead {
+      background-color: $table-header-bg;
+      .mat-header-row {
+        height: 70px;
+        .mat-header-cell {
+          font-family: $font-bold;
+          font-size: $fs-16;
+          color: $secondary-1;
+          border-bottom: 1px solid $light-grey;
+          &:first-child {
+            border-top-left-radius: 10px;
+          }
+          &:last-child {
+            border-top-right-radius: 10px;
+          }
+          &.mat-column-assetStatus {
+            text-align: center;
+            min-width: 160px;
+          }
+          &.mat-column-assetAction {
+            text-align: center;
+          }
+        }
+      }
+    }
+    tbody {
+      .mat-row {
+        height: 70px;
+        .mat-cell {
+          border-bottom-color: $light-grey;
+          img {
+            border-radius: 50%;
+            border: 1px solid $primary-1;
+            height: 40px;
+            vertical-align: middle;
+            margin-right: 15px;
+          }
+          > span {
+            vertical-align: middle;
+          }
+          &.table-status {
+            min-width: 160px;
+            span {
+              font-family: $font-meduim;
+              font-size: $fs-14;
+              width: 140px;
+              letter-spacing: 0.42px;
+              border-radius: 6px;
+              height: 30px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin: 0 auto;
+              &.green {
+                color: $primary-3;
+                background-color: rgba($primary-3, 0.1);
+              }
+              &.red {
+                color: $primary-4;
+                background-color: rgba($primary-4, 0.1);
+              }
+            }
+          }
+          &.mat-column-assetAction {
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
+.add-new-drawer {
+  .mat-drawer {
+    min-width: 800px;
+    position: fixed;
+    .mat-drawer-inner-container {
+      .drawer-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 30px;
+        h3 {
+          font-family: $font-meduim;
+          font-size: $fs-22;
+          margin: 0;
+          color: $secondary-1;
+        }
+      }
+      .drawer-content {
+        padding: 20px;
+      }
+    }
+  }
+}

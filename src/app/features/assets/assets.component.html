@@ -1,0 +1,428 @@
+<div class="assets-screen">
+  <div class="row">
+    <div class="col-md-3" *ngFor="let item of tiles">
+      <div class="tiles-main {{ item.tileColor }}">
+        <div class="tiles-left">
+          <p>{{ item.tileTitle }}</p>
+          <h4>{{ item.tileCounter }}</h4>
+        </div>
+        <div class="tiles-right">
+          <img src="{{ item.tileImage }}" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel-main">
+        <div class="panel-header">
+          <h2>Assets Information</h2>
+          <button mat-flat-button color="primary" (click)="addnew.toggle()">
+            Add New
+          </button>
+
+          <mat-button-toggle-group
+            #group="matButtonToggleGroup"
+            value="card-view"
+            (change)="changeView($event)"
+          >
+            <mat-button-toggle value="card-view">
+              <mat-icon> apps </mat-icon>
+            </mat-button-toggle>
+
+            <mat-button-toggle value="grid-view">
+              <mat-icon> reorder </mat-icon>
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+        <div class="panel-content">
+          <div class="filter-main">
+            <form class="filter-form">
+              <div class="form-field">
+                <mat-form-field
+                  appearance="outline"
+                  floatLabel="never"
+                  class="not-float"
+                >
+                  <input matInput placeholder="Search" />
+                </mat-form-field>
+              </div>
+              <div class="form-field">
+                <mat-form-field appearance="outline">
+                  <mat-label>Status</mat-label>
+                  <mat-select [(ngModel)]="selectedValue" name="status">
+                    <mat-option
+                      *ngFor="let status of statuss"
+                      [value]="status.value"
+                    >
+                      {{ status.viewValue }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="form-field">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>From</mat-label>
+                  <input matInput [matDatepicker]="frompicker" />
+                  <mat-datepicker-toggle matSuffix [for]="frompicker">
+                    <mat-icon matDatepickerToggleIcon
+                      >keyboard_arrow_down</mat-icon
+                    >
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #frompicker></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="form-field">
+                <mat-form-field class="example-full-width" appearance="outline">
+                  <mat-label>To</mat-label>
+                  <input matInput [matDatepicker]="topicker" />
+                  <mat-datepicker-toggle matSuffix [for]="topicker">
+                    <mat-icon matDatepickerToggleIcon
+                      >keyboard_arrow_down</mat-icon
+                    >
+                  </mat-datepicker-toggle>
+                  <mat-datepicker #topicker></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="form-field">
+                <button mat-flat-button color="primary">Apply</button>
+              </div>
+              <div class="form-field">
+                <button mat-flat-button color="secondary">Clear</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="assets-items-main">
+            <div *ngIf="isCardView" class="assets-cards">
+              <div class="row">
+                <div class="col-md-3" *ngFor="let item of cards">
+                  <div class="cards">
+                    <div class="inner-top">
+                      <div class="img-main">
+                        <img src="{{ item.assetImage }}" />
+                      </div>
+                      <div class="title-main">
+                        <h5>{{ item.assetTitle }}</h5>
+                        <p>{{ item.assetId }}</p>
+                      </div>
+                      <div class="more-btn-main">
+                        <button
+                          mat-icon-button
+                          [matMenuTriggerFor]="menu"
+                          aria-label="Example icon-button with a menu"
+                        >
+                          <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu" class="more-menu">
+                          <button mat-menu-item>
+                            <mat-icon>visibility</mat-icon>
+                            <span>View</span>
+                          </button>
+                          <button mat-menu-item>
+                            <mat-icon>edit</mat-icon>
+                            <span>Edit</span>
+                          </button>
+                          <button mat-menu-item>
+                            <mat-icon>delete</mat-icon>
+                            <span>Delete</span>
+                          </button>
+                          <button mat-menu-item>
+                            <mat-icon>history</mat-icon>
+                            <span>History</span>
+                          </button>
+                        </mat-menu>
+                      </div>
+                    </div>
+                    <div class="inner-middle">
+                      <h5>{{ item.assetUser }}</h5>
+                      <span
+                        [ngClass]="
+                          item.assetStatus == 'Assigned' ? 'green' : 'red'
+                        "
+                        >{{ item.assetStatus }}</span
+                      >
+                    </div>
+                    <div class="inner-bottom">
+                      <span>{{ item.assetDate }}</span>
+                      <span>{{ item.assetWarranty }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!isCardView" class="assets-grid">
+              <table
+                mat-table
+                [dataSource]="dataSource"
+                class="mat-elevation-z8"
+              >
+                <ng-container matColumnDef="assetTitle">
+                  <th mat-header-cell *matHeaderCellDef>Asset Name</th>
+                  <td mat-cell *matCellDef="let element">
+                    <img src="{{ element.assetImage }}" />
+                    <span>{{ element.assetTitle }}</span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="assetId">
+                  <th mat-header-cell *matHeaderCellDef>Asset Id</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.assetId }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="assetModel">
+                  <th mat-header-cell *matHeaderCellDef>Model</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.assetModel }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="assetDate">
+                  <th mat-header-cell *matHeaderCellDef>Purchase date</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.assetDate }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="assetWarranty">
+                  <th mat-header-cell *matHeaderCellDef>Warranty</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.assetWarranty }}
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="assetStatus">
+                  <th mat-header-cell *matHeaderCellDef>Status</th>
+                  <td mat-cell *matCellDef="let element" class="table-status">
+                    <span
+                      [ngClass]="
+                        element.assetStatus == 'Assigned' ? 'green' : 'red'
+                      "
+                      >{{ element.assetStatus }}</span
+                    >
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="assetUser">
+                  <th mat-header-cell *matHeaderCellDef>Asset User</th>
+                  <td mat-cell *matCellDef="let element">
+                    {{ element.assetUser }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="assetAction">
+                  <th mat-header-cell *matHeaderCellDef>Action</th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="more-btn-main">
+                      <button
+                        mat-icon-button
+                        [matMenuTriggerFor]="menu"
+                        aria-label="Example icon-button with a menu"
+                      >
+                        <mat-icon>more_vert</mat-icon>
+                      </button>
+                      <mat-menu #menu="matMenu" class="more-menu">
+                        <button mat-menu-item>
+                          <mat-icon>visibility</mat-icon>
+                          <span>View</span>
+                        </button>
+                        <button mat-menu-item>
+                          <mat-icon>edit</mat-icon>
+                          <span>Edit</span>
+                        </button>
+                        <button mat-menu-item>
+                          <mat-icon>delete</mat-icon>
+                          <span>Delete</span>
+                        </button>
+                        <button mat-menu-item>
+                          <mat-icon>history</mat-icon>
+                          <span>History</span>
+                        </button>
+                      </mat-menu>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                ></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="add-new-drawer">
+  <mat-drawer #addnew mode="over" position="end">
+    <div class="drawer-header">
+      <h3>Add New Asset</h3>
+      <button mat-icon-button (click)="addnew.close()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <div class="drawer-content">
+      <form class="add-form">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-field">
+              <mat-form-field appearance="outline">
+                <mat-label>Asset Name</mat-label>
+                <input matInput placeholder="Asset Name" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-field">
+              <mat-form-field appearance="outline">
+                <mat-label>Asset Id</mat-label>
+                <input matInput placeholder="Asset Id" />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-field">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Purchase Date</mat-label>
+                <input matInput [matDatepicker]="purchasedate" />
+                <mat-datepicker-toggle matSuffix [for]="purchasedate">
+                  <mat-icon matDatepickerToggleIcon>calendar_today</mat-icon>
+                </mat-datepicker-toggle>
+                <mat-datepicker #purchasedate></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-field">
+              <mat-form-field appearance="outline">
+                <mat-label>Purchase From</mat-label>
+                <input matInput placeholder="Purchase From" />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-field">
+              <mat-form-field appearance="outline">
+                <mat-label>Manufacturer</mat-label>
+                <input matInput placeholder="Manufacturer" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-field">
+              <mat-form-field appearance="outline">
+                <mat-label>Model</mat-label>
+                <input matInput placeholder="Model" />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-field">
+              <mat-form-field appearance="outline">
+                <mat-label>Serial Number</mat-label>
+                <input matInput placeholder="Serial Number" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-field">
+              <mat-form-field appearance="outline">
+                <mat-label>Supplier</mat-label>
+                <input matInput placeholder="Supplier" />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-field">
+              <mat-form-field appearance="outline">
+                <mat-label>Condition</mat-label>
+                <input matInput placeholder="Condition" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-field">
+              <mat-form-field appearance="outline">
+                <mat-label>Warranty</mat-label>
+                <input matInput placeholder="Warranty" />
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-field">
+              <mat-form-field appearance="outline">
+                <mat-label>Value</mat-label>
+                <input matInput placeholder="Value" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-field">
+              <mat-form-field appearance="outline">
+                <mat-label>Asset User</mat-label>
+                <mat-select [(ngModel)]="selectedValue" name="assetuser">
+                  <mat-option
+                    *ngFor="let assetuser of assetusers"
+                    [value]="assetuser.value"
+                  >
+                    {{ assetuser.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-field">
+              <mat-form-field appearance="outline">
+                <mat-label>Color</mat-label>
+                <input matInput type="color" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-field">
+              <mat-form-field appearance="outline">
+                <mat-label>Status</mat-label>
+                <mat-select [(ngModel)]="selectedValue" name="assetstatus">
+                  <mat-option
+                    *ngFor="let assetstatus of assetstatuss"
+                    [value]="assetstatus.value"
+                  >
+                    {{ assetstatus.viewValue }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-field textarea">
+              <mat-form-field appearance="outline">
+                <mat-label>Description</mat-label>
+                <textarea matInput placeholder="Description"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </mat-drawer>
+</div>

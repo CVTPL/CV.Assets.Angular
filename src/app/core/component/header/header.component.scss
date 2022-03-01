@@ -1,0 +1,22 @@
+@import "../../../../assets/stylesheet/main.scss";
+.top-header {
+  background-color: $secondary-1;
+  height: 100px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  .logo-main {
+    padding: 0 30px;
+    min-width: 300px;
+    a {
+      display: block;
+    }
+  }
+  .page-title {
+    padding: 0 30px;
+    h1 {
+      margin: 0;
+      color: $white;
+    }
+  }
+}

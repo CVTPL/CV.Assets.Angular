@@ -1,0 +1,25 @@
+@import "../../../../assets/stylesheet/main.scss";
+
+::ng-deep .mat-list-base {
+  .mat-list-item {
+    color: $white;
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    height: auto !important;
+    .mat-list-item-content {
+      flex-direction: row-reverse !important;
+      margin: 5px;
+      padding: 10px 15px !important;
+      .mat-list-text {
+        margin-left: 15px;
+      }
+    }
+    &.active {
+      .mat-list-item-content {
+        background-color: $primary-1;
+        border-radius: 4px;
+      }
+    }
+  }
+}
